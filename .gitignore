@@ -38,3 +38,6 @@ out/
 
 ### Jenv ###
 .java-version
+
+### Resource Emails ###
+src/main/resources/emails/
