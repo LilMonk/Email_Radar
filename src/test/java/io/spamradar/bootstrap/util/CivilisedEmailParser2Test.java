@@ -1,30 +1,38 @@
 package io.spamradar.bootstrap.util;
 
-import io.spamradar.bootstrap.kafka.EmailProducer;
-import io.spamradar.bootstrap.model.CivilisedEmail;
-import io.spamradar.bootstrap.model.PrimitiveEmail;
+import io.spamradar.bootstrap.email.EmailBuilder;
+import io.spamradar.bootstrap.email.EmailContentHandler;
+import io.spamradar.bootstrap.email.EmailParser;
+import io.spamradar.bootstrap.email.PrimitiveToCivilisedEmailConverter;
+import io.spamradar.bootstrap.email.model.CivilisedEmail;
+import io.spamradar.bootstrap.email.model.PrimitiveEmail;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.parser.ContentHandler;
 import org.apache.james.mime4j.parser.MimeStreamParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.FileUrlResource;
+import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 @SpringBootTest
 class CivilisedEmailParser2Test {
-    @Value("${kafka.topic.name}")
-    String topic;
+//    @Value("${kafka.topic.name}")
+//    String topic;
+//
+//    @Autowired
+//    EmailProducer emailProducer;
 
     @Autowired
-    EmailProducer emailProducer;
+    EmailParser emailParser;
 
     @Test
     void emailParser2Test() throws MimeException, IOException {
-        String emailFileName = "emails/spam/1.txt";
+//        String emailFileName = "emails/spam/1.txt";
+        String emailFileName = "/home/sentinel/Projects/Email_Spam_Detection/bootstrap/src/main/resources/emails/spam/1.txt";
         InputStream inputStream = getFileFromResourceAsStream(emailFileName);
         EmailBuilder emailBuilder = new EmailBuilder();
         ContentHandler handler = new EmailContentHandler(emailBuilder);
@@ -33,11 +41,10 @@ class CivilisedEmailParser2Test {
         parser.parse(inputStream);
 
         PrimitiveEmail primitiveEmail = emailBuilder.build();
-        PrimitiveToCivilisedEmailConverter primitiveToCivilisedEmailConverter = new PrimitiveToCivilisedEmailConverter(primitiveEmail);
-        CivilisedEmail civilisedEmail = primitiveToCivilisedEmailConverter.getCivilisedEmail();
+        CivilisedEmail civilisedEmail = PrimitiveToCivilisedEmailConverter.convertToCivilisedEmail(primitiveEmail);
 //        printPrimitiveEmail(primitiveEmail);
-//        printCivilisedEmail(civilisedEmail);
-        emailProducer.sendMessage(civilisedEmail, topic);
+        printCivilisedEmail(civilisedEmail);
+//        emailProducer.sendMessage(civilisedEmail, topic);
     }
 
     private void printCivilisedEmail(CivilisedEmail civilisedEmail) {
@@ -69,18 +76,27 @@ class CivilisedEmailParser2Test {
 
     // get a file from the resources folder
     // works everywhere, IDEA, unit test and JAR file.
-    private InputStream getFileFromResourceAsStream(String fileName) {
+    private InputStream getFileFromResourceAsStream(String fileName) throws IOException {
 
         // The class loader that loaded the class
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(fileName);
-
+        Resource resource = new FileUrlResource(fileName);
+        inputStream = resource.getInputStream();
         // the stream holding the file content
-        if (inputStream == null) {
-            throw new IllegalArgumentException("file not found! " + fileName);
-        } else {
-            return inputStream;
-        }
+        return inputStream;
+    }
 
+
+    @Test
+    void testEmailParser() throws IOException, MimeException {
+        String emailFileName = "/home/sentinel/Projects/Email_Spam_Detection/bootstrap/src/main/resources/emails/spam/1.txt";
+        String emailFileName1 = "/home/sentinel/Projects/Email_Spam_Detection/bootstrap/src/main/resources/emails/spam/0.txt";
+        InputStream inputStream = getFileFromResourceAsStream(emailFileName);
+        InputStream inputStream1 = getFileFromResourceAsStream(emailFileName1);
+        PrimitiveEmail email = emailParser.parse(inputStream);
+        PrimitiveEmail email1 = emailParser.parse(inputStream1);
+        printPrimitiveEmail(email);
+        printPrimitiveEmail(email1);
     }
 }

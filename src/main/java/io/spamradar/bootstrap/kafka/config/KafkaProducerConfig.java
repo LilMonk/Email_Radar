@@ -1,6 +1,6 @@
 package io.spamradar.bootstrap.kafka.config;
 
-import io.spamradar.bootstrap.model.CivilisedEmail;
+import io.spamradar.bootstrap.email.model.CivilisedEmail;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

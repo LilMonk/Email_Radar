@@ -1,11 +1,13 @@
-package io.spamradar.bootstrap.util;
+package io.spamradar.bootstrap.email;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.parser.ContentHandler;
 import org.apache.james.mime4j.parser.MimeStreamParser;
 import org.apache.james.mime4j.stream.BodyDescriptor;
 import org.apache.james.mime4j.stream.Field;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
+@Component
 public class EmailContentHandler implements ContentHandler {
     private final EmailBuilder emailBuilder;
 
@@ -26,9 +29,10 @@ public class EmailContentHandler implements ContentHandler {
      *
      * @throws MimeException on processing errors
      */
+    @SneakyThrows
     @Override
     public void startMessage() throws MimeException {
-        emailBuilder.startMessage();
+        emailBuilder.startEmail();
         log.debug("New Message Started!!!");
     }
 
@@ -37,9 +41,10 @@ public class EmailContentHandler implements ContentHandler {
      *
      * @throws MimeException on processing errors
      */
+    @SneakyThrows
     @Override
     public void endMessage() throws MimeException {
-        emailBuilder.endMessage();
+        emailBuilder.endEmail();
         log.debug("Message Ended!!!");
     }
 
@@ -49,6 +54,7 @@ public class EmailContentHandler implements ContentHandler {
      *
      * @throws MimeException on processing errors
      */
+    @SneakyThrows
     @Override
     public void startBodyPart() throws MimeException {
         emailBuilder.startMessage();
@@ -60,6 +66,7 @@ public class EmailContentHandler implements ContentHandler {
      *
      * @throws MimeException on processing errors
      */
+    @SneakyThrows
     @Override
     public void endBodyPart() throws MimeException {
         emailBuilder.endMessage();

@@ -1,4 +1,4 @@
-package io.spamradar.bootstrap.model;
+package io.spamradar.bootstrap.email.model;
 
 import lombok.Data;
 

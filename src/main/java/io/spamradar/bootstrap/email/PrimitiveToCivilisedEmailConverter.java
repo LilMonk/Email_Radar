@@ -1,7 +1,7 @@
-package io.spamradar.bootstrap.util;
+package io.spamradar.bootstrap.email;
 
-import io.spamradar.bootstrap.model.CivilisedEmail;
-import io.spamradar.bootstrap.model.PrimitiveEmail;
+import io.spamradar.bootstrap.email.model.CivilisedEmail;
+import io.spamradar.bootstrap.email.model.PrimitiveEmail;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,18 +13,21 @@ import static org.apache.james.mime4j.dom.field.FieldName.*;
  * Converts the {@link PrimitiveEmail} instance to {@link CivilisedEmail} instance.
  */
 public class PrimitiveToCivilisedEmailConverter {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E, d MMM yyyy HH:mm:ss Z");
 
-    private PrimitiveEmail primitiveEmail;
-    private CivilisedEmail civilisedEmail;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E, dd MMM yyyy HH:mm:ss Z");
-
-    public PrimitiveToCivilisedEmailConverter(PrimitiveEmail primitiveEmail) {
-        this.primitiveEmail = primitiveEmail;
-        this.civilisedEmail = new CivilisedEmail();
-        convertToCivilisedEmail(this.primitiveEmail, this.civilisedEmail);
+    /**
+     * Converts {@link PrimitiveEmail} instance to {@link CivilisedEmail} instance.
+     *
+     * @param primitiveEmail instance to be converted.
+     * @return {@link CivilisedEmail} instance.
+     */
+    public static CivilisedEmail convertToCivilisedEmail(PrimitiveEmail primitiveEmail) {
+        CivilisedEmail civilisedEmail = new CivilisedEmail();
+        PrimitiveToCivilisedEmailConverter.convertToCivilisedEmail(primitiveEmail, civilisedEmail);
+        return civilisedEmail;
     }
 
-    private void convertToCivilisedEmail(PrimitiveEmail primitiveEmail, CivilisedEmail civilisedEmail) {
+    private static void convertToCivilisedEmail(PrimitiveEmail primitiveEmail, CivilisedEmail civilisedEmail) {
         String dateStr = primitiveEmail.getHeaders().getOrDefault(DATE, null);
         String from = primitiveEmail.getHeaders().getOrDefault(FROM, null);
         String toStr = primitiveEmail.getHeaders().getOrDefault(TO, null);
@@ -46,9 +49,5 @@ public class PrimitiveToCivilisedEmailConverter {
             civilisedEmail.getChildEmails().add(cEmail);
             convertToCivilisedEmail(pEmail, cEmail);
         }
-    }
-
-    public CivilisedEmail getCivilisedEmail() {
-        return civilisedEmail;
     }
 }

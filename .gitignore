@@ -40,4 +40,4 @@ out/
 .java-version
 
 ### Resource Emails ###
-src/main/resources/emails/
+#src/main/resources/emails/

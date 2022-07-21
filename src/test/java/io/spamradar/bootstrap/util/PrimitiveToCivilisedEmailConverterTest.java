@@ -6,8 +6,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 class PrimitiveToCivilisedEmailConverterTest {
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E, dd MMM yyyy HH:mm:ss X");
-    private String dateTime = "Fri, 25 Feb 2000 03:34:00 -0000";
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E, d MMM yyyy HH:mm:ss X");
+    private String dateTime = "Fri, 10 Jun 2005 08:31:24 -0500";
 
     @Test
     void testFormatter() {

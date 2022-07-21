@@ -26,7 +26,7 @@ Content-Type: text/plain;
 	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hello, 
 speaking - he delivered sentence of death in the prescribed form,entirely =
 right.  Ye have the qualities of a great commander, Captainsea-wolf =
 named Yberville, who, though still young, had already wonHagthorpe, who =
@@ -54,7 +54,7 @@ Content-Transfer-Encoding: quoted-printable
 </HEAD>
 <BODY bgColor=3D#ffffff>
 <DIV><FONT face=3DArial></FONT>&nbsp;</DIV>
-<DIV><FONT face=3DArial>Hello, </FONT><FONT face=3DArial>Welcome to <A
+<DIV><FONT face=3DArial>Hello, </FONT><FONT face=3DArial>Welcome to <A 
 href=3D"http://www.mrax.etdrividirtins.com">Pharm<SPAN style=3D"DISPLAY: =
 none"> patristic </SPAN>Online <SPAN style=3D"DISPLAY: none"> =
 overbalance </SPAN>Shop</A></FONT>
@@ -87,7 +87,7 @@ archivist </SPAN>A&nbsp;<SPAN style=3D"DISPLAY: none"> aesthetic =
 </SPAN>A</FONT></TD>
     <TD><FONT face=3DArial size=3D4><SPAN style=3D"DISPLAY: none"> =
 cartography </SPAN>UM</FONT></TD>
-    <TD><FONT face=3DArial
+    <TD><FONT face=3DArial 
   size=3D4>&nbsp;and&nbsp;many&nbsp;other.</FONT></TD></TR></TABLE></DIV>
 <DIV><FONT face=3DArial></FONT>&nbsp;</DIV>
 <DIV><FONT face=3DArial>- Sa<SPAN style=3D"DISPLAY: none"> cartful =
