@@ -1,1 +1,3 @@
-rootProject.name = 'bootstrap'
+rootProject.name = 'email-radar'
+include 'bootstrap'
+//include 'streaming-email-ingestion'
