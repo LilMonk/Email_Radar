@@ -49,3 +49,57 @@ we need to correctly label it.
 - User should see the live time required to process.
 - User should be able to re-run the pipeline in case of failure.
 - User should get a proper reason of failure and list of failed records.
+
+
+#### Future plans:
+- Make the read process from a datasource multithreaded. This will help to 
+read all the emails from a source much faster.
+- Currently, the email parser is quite ambiguous.
+
+The process is like:
+1. First we have to create a CustomContentHandler (in our case it is EmailContentHandler) that implements ContentHandler interface.
+2. This EmailContentHandler needs to be registered with MimeStreamParser instance using setContentHandler() method.
+3. After registering this we can use our EmailContentHandler when we parse the inputstream email object.
+4. In our EmailContentHandler we need to implement the methods of ContentHandler interface. 
+5. We also need to register an instance of EmailBuilder instance to build a tree like object of PrimitiveEmail as node.
+6. EmailBuilder does not create a PrimitiveEmail object. We need to register a new instance of PrimitiveEmail object in EmailBuilder
+so that it can fill in the data inside the object.
+7. So we have a EmailParser class that has parse(inputStream) method that will set the PrimitiveEmail in the EmailBuilder
+and call the parse(inputStream) method of MimeStreamParser.
+8. Inorder to make parsing thread safe we have locked the PrimitiveEmail object that we register in EmailBuilder until the
+parsing is over.
+```mermaid
+classDiagram
+position center
+class MimeStreamParser {
+  ContentHandler contentHandler
+  setContentHandler(ContentHandler) void
+  parse(InputStream) void
+}
+
+class ContentHandler {
+  <<interface>>
+  ContentHandlerMethods()
+}
+
+class EmailContentHandler {
+  EmailBuilder emailBuilder
+}
+
+class EmailBuilder {
+  PrimitiveEmail primitiveEmail
+  build() PrimitiveEmail
+}
+
+class EmailParser {
+  EmailBuilder emailBuilder
+  MimeStreamParser mimeStreamParser
+  parse(InputStream) PrimitiveEmail
+}
+
+ContentHandler <|-- EmailContentHandler : implements
+MimeStreamParser o-- ContentHandler : register to parser
+EmailContentHandler o-- EmailBuilder : register to content handler
+EmailParser o-- EmailBuilder : register PrimitiveEmail obj
+EmailParser o-- MimeStreamParser : call parse method
+```

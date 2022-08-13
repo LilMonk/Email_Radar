@@ -42,7 +42,9 @@ public class EmailBuilder {
      *
      * @param email root node in which the data will be filled.
      */
-    public void register(PrimitiveEmail email) {
+    public void register(PrimitiveEmail email) throws EmailParseException {
+        if(this.registeredNode != null)
+            throw new EmailParseException("Parsing of the current email is not finished.");
         this.registeredNode = email;
         reset();
     }
@@ -69,7 +71,7 @@ public class EmailBuilder {
     }
 
     /**
-     * When a new message start or a multipart message is started this method is
+     * When a new message body start or a multipart message is started this method is
      * invoked. This will create a new node so that respective header and body
      * should be saved in particular node.
      */
@@ -77,8 +79,6 @@ public class EmailBuilder {
         if (root == null) {
             this.root = this.registeredNode;
             this.currentNode = this.root;
-            // Reset the registeredNode
-            this.registeredNode = null;
         } else {
             PrimitiveEmail newNode = new PrimitiveEmail();
             newNode.getHeaders().putAll(currentNode.getHeaders());
@@ -107,7 +107,7 @@ public class EmailBuilder {
     }
 
     /**
-     * At the end of the message this method should be invoked to mark the completion
+     * At the end of the message body this method should be invoked to mark the completion
      * of data filling inside the node.
      *
      * @throws EmailParseException when email structure is malformed.
@@ -131,5 +131,8 @@ public class EmailBuilder {
             throw new EmailParseException("Malformed email structure");
 
         this.currentNode = null;
+
+        // Reset the registeredNode
+        this.registeredNode = null;
     }
 }

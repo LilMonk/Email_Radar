@@ -1,6 +1,7 @@
 package io.spamradar.bootstrap.controller;
 
 import io.spamradar.bootstrap.exception.DataSourceException;
+import io.spamradar.bootstrap.model.DataSourcePostRequest;
 import io.spamradar.bootstrap.service.api.DataSourceService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,9 @@ public class DataSourceController {
     private DataSourceService dataSourceService;
 
     @PostMapping("dataSource/url")
-    public String postDataSourceUrl(@RequestBody String url) throws DataSourceException, URISyntaxException {
-        log.info("Data Source URL : {}", url);
-        dataSourceService.createDataSource(url);
+    public String postDataSourceUrl(@RequestBody DataSourcePostRequest dataSourcePostRequest) throws DataSourceException, URISyntaxException {
+        log.info("Data Source Post Request : {}", dataSourcePostRequest);
+        dataSourceService.createDataSource(dataSourcePostRequest);
         return "Success!!!";
     }
 

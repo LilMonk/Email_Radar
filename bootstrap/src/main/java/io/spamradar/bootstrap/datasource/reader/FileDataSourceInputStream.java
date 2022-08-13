@@ -2,9 +2,13 @@ package io.spamradar.bootstrap.datasource.reader;
 
 import io.spamradar.bootstrap.util.IOUtils;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,15 +20,16 @@ public class FileDataSourceInputStream implements Iterator<InputStream> {
     private final Iterator<String> fileNameIterator;
     private FileInputStream currentFileInputStream;
 
+
     /**
      * Custom {@link Iterator} implementation for iterating over {@link InputStream} of file.
      *
-     * @param dirPath              to read from.
+     * @param dirUrl              to read from.
      * @param selfCloseInputStream true if you want application to close the input stream, false otherwise.
      *                             In case of false, remember to close the input stream.
      */
-    public FileDataSourceInputStream(String dirPath, boolean selfCloseInputStream) {
-        List<String> fileNames = IOUtils.getAbsoluteFilePaths(dirPath);
+    public FileDataSourceInputStream(String dirUrl, boolean selfCloseInputStream) throws URISyntaxException {
+        List<String> fileNames = IOUtils.getAbsoluteFilePaths(dirUrl);
         this.selfCloseInputStream = selfCloseInputStream;
         this.fileNameIterator = fileNames.iterator();
     }

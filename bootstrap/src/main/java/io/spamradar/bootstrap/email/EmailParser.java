@@ -1,6 +1,7 @@
 package io.spamradar.bootstrap.email;
 
 import io.spamradar.bootstrap.email.model.PrimitiveEmail;
+import io.spamradar.bootstrap.exception.EmailParseException;
 import lombok.AllArgsConstructor;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.parser.MimeStreamParser;
@@ -26,7 +27,7 @@ public class EmailParser {
      * @throws MimeException when email is malformed or have invalid data.
      * @throws IOException   when error occurs in input stream.
      */
-    public PrimitiveEmail parse(InputStream inputStream) throws MimeException, IOException {
+    public PrimitiveEmail parse(InputStream inputStream) throws MimeException, IOException, EmailParseException {
         PrimitiveEmail email = new PrimitiveEmail();
         emailBuilder.register(email);
         parser.parse(inputStream);

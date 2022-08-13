@@ -3,6 +3,7 @@ package io.spamradar.bootstrap.datasource.reader;
 import io.spamradar.bootstrap.datasource.model.DataSource;
 
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
@@ -19,8 +20,8 @@ public class FileDataSourceReader implements DataSourceReader {
      * @param selfCloseInputStream true if you want application to close the input stream, false otherwise.
      *                             In case of false, remember to close the input stream.
      */
-    public FileDataSourceReader(DataSource dataSource, boolean selfCloseInputStream) {
-        String dirPath = dataSource.getUrl().getPath();
+    public FileDataSourceReader(DataSource dataSource, boolean selfCloseInputStream) throws URISyntaxException {
+        String dirPath = dataSource.getUrlAsString();
         fileNamesIterator = new FileDataSourceInputStream(dirPath, selfCloseInputStream);
     }
 

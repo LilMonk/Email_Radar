@@ -4,6 +4,8 @@ import io.spamradar.bootstrap.datasource.model.DataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.net.URISyntaxException;
+
 /**
  * A factory class to provide {@link DataSourceReader} instance
  * according to the URL. <br>
@@ -30,7 +32,7 @@ public class DataSourceReaderFactory {
      * @param dataSource data source information to read the data from.
      * @return {@link DataSourceReader} instance.
      */
-    public DataSourceReader getDataSourceReader(DataSource dataSource) {
+    public DataSourceReader getDataSourceReader(DataSource dataSource) throws URISyntaxException {
         return switch (dataSource.getDataSourceType()) {
             case FILE -> new FileDataSourceReader(dataSource, selfCloseInputStream);
             case HDFS, S3, HTTP, HTTPS -> null; // TODO: Implement DataSourceReader for all these DataSources.

@@ -95,15 +95,15 @@ services:
       dockerfile: Dockerfile-Mongo
     command: --replSet rs0
     ports:
-      - 27017:27017
+      - "27017:27017"
     volumes:
       - data:/data
     networks:
       - localnet
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: rootuser
-      MONGO_INITDB_ROOT_PASSWORD: rootpass
+#    environment:
+##      MONGO_INITDB_ROOT_USERNAME: rootuser
+##      MONGO_INITDB_ROOT_PASSWORD: rootpass
 
   mongo1-setup:
     image: "quickstart-mongod:1.0"
@@ -142,10 +142,8 @@ services:
     networks:
       - localnet
     ports:
-      - 8090:8081
+      - "8090:8081"
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: rootuser
-      ME_CONFIG_MONGODB_ADMINPASSWORD: rootpass
       ME_CONFIG_MONGODB_SERVER: mongo1
 
 networks:
