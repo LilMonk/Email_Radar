@@ -1,3 +1,5 @@
 rootProject.name = 'email-radar'
 include 'bootstrap'
 //include 'streaming-email-ingestion'
+include 'dataprocessing-service'
+
