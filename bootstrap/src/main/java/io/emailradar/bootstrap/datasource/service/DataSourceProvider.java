@@ -1,9 +1,9 @@
 package io.emailradar.bootstrap.datasource.service;
 
-import io.emailradar.bootstrap.constant.Label;
 import io.emailradar.bootstrap.datasource.model.DataSource;
 import io.emailradar.bootstrap.datasource.model.DataSourceType;
 import io.emailradar.bootstrap.exception.DataSourceException;
+import io.emailradar.commons.constant.Label;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.stereotype.Component;

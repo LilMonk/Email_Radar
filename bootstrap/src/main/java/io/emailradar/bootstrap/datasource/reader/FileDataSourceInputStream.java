@@ -4,6 +4,7 @@ import io.emailradar.bootstrap.util.IOUtils;
 import lombok.SneakyThrows;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Iterator;
@@ -21,7 +22,7 @@ public class FileDataSourceInputStream implements Iterator<InputStream> {
     /**
      * Custom {@link Iterator} implementation for iterating over {@link InputStream} of file.
      *
-     * @param dirUrl              to read from.
+     * @param dirUrl               to read from.
      * @param selfCloseInputStream true if you want application to close the input stream, false otherwise.
      *                             In case of false, remember to close the input stream.
      */
@@ -37,8 +38,14 @@ public class FileDataSourceInputStream implements Iterator<InputStream> {
      * @return true if element is present, false otherwise.
      */
     @Override
+    @SneakyThrows
     public boolean hasNext() {
-        return fileNameIterator.hasNext();
+        if (fileNameIterator.hasNext())
+            return true;
+        else {
+            closeCurrentFileInputStream();
+            return false;
+        }
     }
 
     /**
@@ -53,10 +60,16 @@ public class FileDataSourceInputStream implements Iterator<InputStream> {
         if (!hasNext())
             throw new Exception("No elements remaining to be iterated.");
 
-        if (selfCloseInputStream && this.currentFileInputStream != null)
-            this.currentFileInputStream.close();
+        closeCurrentFileInputStream();
 
         this.currentFileInputStream = new FileInputStream(fileNameIterator.next());
         return this.currentFileInputStream;
+    }
+
+    private void closeCurrentFileInputStream() throws IOException {
+        if (selfCloseInputStream && this.currentFileInputStream != null) {
+            this.currentFileInputStream.close();
+            this.currentFileInputStream = null;
+        }
     }
 }

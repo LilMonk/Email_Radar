@@ -46,15 +46,30 @@ we need to correctly label it.
 - User should get some acknowledgement that the processing has finished.
 
 #### Optional requirements:
+
 - User should see the live time required to process.
 - User should be able to re-run the pipeline in case of failure.
 - User should get a proper reason of failure and list of failed records.
 
+#### Future to-dos:
 
-#### Future plans:
-- Make the read process from a datasource multithreaded. This will help to 
-read all the emails from a source much faster.
-- Currently, the email parser is quite ambiguous.
+- [ ] Make the read process from a datasource multithreaded. This will help to
+  read all the emails from a source much faster.
+- [ ] Currently, the email parser is quite ambiguous.
+- [ ] Add file name in metadata. Currently, only source URI is there.
+- [ ] Add proper logging for
+  - [ ] Primitive email parser.
+  - [ ] Primitive to civilised email converter.
+  - [ ] Data source factory.
+  - [ ] File data source reader.
+  - [ ] File data source inputstream.
+    <br> Currently the failed emails are not getting identified.
+- [ ] Quarantine the emails that failed to parse.
+- [ ] Adjust the error handling such that parsing error do not terminate the whole application.
+- [ ] Produce reports of parse data.
+- [ ] Provide an endpoint to fetch these reports.
+- [ ] Try to find an alternative to random UUID allocation as id for emails. As I have found that some
+  emails are duplicates. Try to find some hashing methods that could assign an id.
 
 The process is like:
 1. First we have to create a CustomContentHandler (in our case it is EmailContentHandler) that implements ContentHandler interface.

@@ -1,4 +1,4 @@
-package io.emailradar.bootstrap.exception;
+package io.emailradar.commons.exception;
 
 public class EmailParseException extends Exception {
     public EmailParseException(String message) {

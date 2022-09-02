@@ -1,91 +1,91 @@
 version: "3.7"
 services:
-#  zookeeper:
-#    image: confluentinc/cp-zookeeper:7.0.1
-#    hostname: zookeeper
-#    container_name: zookeeper
-#    ports:
-#      - "2181:2181"
-#    networks:
-#      - localnet
-#    environment:
-#      ZOOKEEPER_CLIENT_PORT: 2181
-#      ZOOKEEPER_TICK_TIME: 2000
-#      ZOOKEEPER_SERVER_ID: 1
-#      ZOOKEEPER_SERVERS: zoo1:2888:3888
-#
-#  broker:
-#    image: confluentinc/cp-kafka:7.0.1
-#    hostname: broker
-#    container_name: broker
-#    ports:
-#      - "9092:9092"
-#      - "9999:9999"
-#    depends_on:
-#      - zookeeper
-#    networks:
-#      - localnet
-#    environment:
-#      KAFKA_BROKER_ID: 1
-#      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
-#      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://broker:29092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
-#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
-#      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
-#      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-#      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-#      CONFLUENT_SUPPORT_CUSTOMER_ID: "anonymous"
-#      KAFKA_DELETE_TOPIC_ENABLE: "true"
-#
-#  connect:
-#    image: quickstart-connect-1.7.0:1.0
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-MongoConnect
-#    hostname: connect
-#    container_name: connect
-#    depends_on:
-#      - zookeeper
-#      - broker
-#    ports:
-#      - "8083:8083"
-#    networks:
-#      - localnet
-#    environment:
-#      CONNECT_BOOTSTRAP_SERVERS: "broker:29092"
-#      CONNECT_REST_ADVERTISED_HOST_NAME: connect
-#      CONNECT_REST_PORT: 8083
-#      CONNECT_GROUP_ID: connect-cluster-group
-#      CONNECT_CONFIG_STORAGE_TOPIC: docker-connect-configs
-#      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
-#      CONNECT_OFFSET_FLUSH_INTERVAL_MS: 10000
-#      CONNECT_OFFSET_STORAGE_TOPIC: docker-connect-offsets
-#      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
-#      CONNECT_STATUS_STORAGE_TOPIC: docker-connect-status
-#      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
-#      CONNECT_ZOOKEEPER_CONNECT: "zookeeper:2181"
-#      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
-#      CONNECT_AUTO_CREATE_TOPICS_ENABLE: "true"
-#      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-#      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-#
-#  kafka-ui:
-#    image: provectuslabs/kafka-ui
-#    container_name: kafka-clearui1
-#    depends_on:
-#      - zookeeper
-#      - broker
-#      - connect
-#    ports:
-#      - "8082:8080"
-#    networks:
-#      - localnet
-#    restart: always
-#    environment:
-#      KAFKA_CLUSTERS_0_NAME: local
-#      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "broker:29092"
-#      KAFKA_CLUSTERS_0_ZOOKEEPER: "zookeeper:2181"
-#      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: localconnect
-#      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://connect:8083
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - localnet
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_SERVERS: zoo1:2888:3888
+
+  broker:
+    image: confluentinc/cp-kafka:7.0.1
+    hostname: broker
+    container_name: broker
+    ports:
+      - "9092:9092"
+      - "9999:9999"
+    depends_on:
+      - zookeeper
+    networks:
+      - localnet
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://broker:29092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT,LISTENER_DOCKER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      CONFLUENT_SUPPORT_CUSTOMER_ID: "anonymous"
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+
+  connect:
+    image: quickstart-connect-1.7.0:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile-MongoConnect
+    hostname: connect
+    container_name: connect
+    depends_on:
+      - zookeeper
+      - broker
+    ports:
+      - "8083:8083"
+    networks:
+      - localnet
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: "broker:29092"
+      CONNECT_REST_ADVERTISED_HOST_NAME: connect
+      CONNECT_REST_PORT: 8083
+      CONNECT_GROUP_ID: connect-cluster-group
+      CONNECT_CONFIG_STORAGE_TOPIC: docker-connect-configs
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_FLUSH_INTERVAL_MS: 10000
+      CONNECT_OFFSET_STORAGE_TOPIC: docker-connect-offsets
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_TOPIC: docker-connect-status
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+      CONNECT_AUTO_CREATE_TOPICS_ENABLE: "true"
+      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-clearui1
+    depends_on:
+      - zookeeper
+      - broker
+      - connect
+    ports:
+      - "8082:8080"
+    networks:
+      - localnet
+    restart: always
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "broker:29092"
+      KAFKA_CLUSTERS_0_ZOOKEEPER: "zookeeper:2181"
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: localconnect
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://connect:8083
 
   mongo1:
     image: "quickstart-mongod:1.0"
@@ -93,74 +93,65 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-Mongo
-#    entrypoint: [ "/usr/bin/mongod", "--auth", "--keyFile", "/data/shared.key", "--replSet", "rs0"]
     ports:
       - "27017:27017"
     volumes:
-      - mongodata:/data/db
+      - data:/data/db
     networks:
       - localnet
     restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rootuser
+      MONGO_INITDB_ROOT_PASSWORD: rootpass
 
-#  mongo1-setup:
-#    image: "quickstart-mongod:1.0"
-#    container_name: mongo1-setup
-#    depends_on:
-#      - mongo1
-#    networks:
-#      - localnet
-#    entrypoint:
-#      [
-#        "bash",
-#        "-c",
-#        "sleep 10 && mongo --host mongodb://mongo1:27017 config-replica.js && sleep 10 && mongo --host mongodb://mongo1:27017 config-data.js",
-#      ]
-#    restart: "no"
+  mongo1-setup:
+    image: "quickstart-mongod:1.0"
+    container_name: mongo1-setup
+    depends_on:
+      - mongo1
+    networks:
+      - localnet
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "sleep 10 && mongo --host mongodb://mongo1:27017 config-replica.js && sleep 10 && mongo --host mongodb://mongo1:27017 config-data.js",
+      ]
+    restart: "no"
 
-#  mongo1-setup:
-#    image: "quickstart-mongod:1.0"
-#    container_name: mongo1-setup
-#    depends_on:
-#      - mongo1
-#    networks:
-#      - localnet
-#    links:
-#      - "mongo1:database"
-#    entrypoint: ["bash", "-c", "./mongo-setup.sh"]
-#    restart: "no"
+  shell:
+    image: "quickstart-shell:1.0"
+    container_name: shell
+    build:
+      context: .
+      dockerfile: Dockerfile-shell
+    depends_on:
+      - zookeeper
+      - broker
+      - connect
+      - mongo1
+    networks:
+      - localnet
+    command: "tail -f /dev/null"
 
-#  shell:
-#    image: "quickstart-shell:1.0"
-#    container_name: shell
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-shell
-#    depends_on:
-#      - zookeeper
-#      - broker
-#      - connect
-#      - mongo1
-#    networks:
-#      - localnet
-#    command: "tail -f /dev/null"
-#
-#  mongo-express:
-#    image: mongo-express
-#    container_name: mongo-express
-#    restart: always
-#    networks:
-#      - localnet
-#    ports:
-#      - "8090:8081"
-#    depends_on:
-#      - mongo1
-#    environment:
-#      ME_CONFIG_MONGODB_ADMINUSERNAME: rootadmin
-#      ME_CONFIG_MONGODB_ADMINPASSWORD: rootadmin
-#      ME_CONFIG_MONGODB_SERVER: mongo1
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    networks:
+      - localnet
+    ports:
+      - "8090:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: rootuser
+      ME_CONFIG_MONGODB_ADMINPASSWORD: rootpass
+      ME_CONFIG_MONGODB_SERVER: mongo1
+    depends_on:
+      - mongo1
+      - mongo1-setup
 
 networks:
   localnet:
     attachable: true
 volumes:
-  mongodata:
+  data: { }

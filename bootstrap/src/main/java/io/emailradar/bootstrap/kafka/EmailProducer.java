@@ -1,8 +1,9 @@
 package io.emailradar.bootstrap.kafka;
 
-import io.emailradar.bootstrap.email.model.CivilisedEmail;
+import io.emailradar.commons.email.model.EmailPayload;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -13,20 +14,34 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class EmailProducer {
-    private final KafkaTemplate<String, CivilisedEmail> kafkaTemplate;
+    @Autowired
+    private final KafkaTemplate<String, EmailPayload> kafkaTemplate;
+    private static final String KEY = "key";
 
     /**
-     * Send {@link CivilisedEmail} to the given topic.
+     * Send {@link EmailPayload} to the given topic.
      *
-     * @param civilisedEmail instance to be sent.
-     * @param topic          in which the {@link CivilisedEmail} instance to be sent.
+     * @param message message to be sent.
+     * @param topic   in which the {@link EmailPayload} instance to be sent.
      */
-    public void sendMessage(CivilisedEmail civilisedEmail, String topic) {
-        log.info("Producing message: {}", civilisedEmail.getSubject());
-        kafkaTemplate.send(topic, "key", civilisedEmail)
+    public void sendMessage(EmailPayload message, String topic) {
+        sendMessage(KEY, message, topic);
+    }
+
+    /**
+     * Send {@link EmailPayload} to the given topic.
+     *
+     * @param key     message key.
+     * @param message message to be sent.
+     * @param topic   in which the {@link EmailPayload} instance to be sent.
+     */
+    public void sendMessage(String key, EmailPayload message, String topic) {
+        log.info("Producing message: {}", message.get_id());
+        kafkaTemplate.send(topic, key, message)
                 .addCallback(
-                        result -> log.info("Message sent to topic({}) : {}", topic, civilisedEmail.getSubject()),
-                        ex -> log.error("Failed to send message", ex)
+                        result -> log.info("Message sent to topic({}) : {}", topic, message.get_id()),
+                        ex -> log.error("Failed to send message to topic({}) : {} \n Error message : {}",
+                                topic, message.get_id(), ex)
                 );
     }
 }

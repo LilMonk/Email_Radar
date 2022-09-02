@@ -1,6 +1,6 @@
 package io.emailradar.bootstrap.datasource.model;
 
-import io.emailradar.bootstrap.constant.Label;
+import io.emailradar.commons.constant.Label;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

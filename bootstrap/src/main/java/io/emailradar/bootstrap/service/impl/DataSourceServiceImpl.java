@@ -1,19 +1,20 @@
 package io.emailradar.bootstrap.service.impl;
 
-import io.emailradar.bootstrap.datasource.metadata.Metadata;
 import io.emailradar.bootstrap.datasource.model.DataSource;
 import io.emailradar.bootstrap.datasource.reader.DataSourceReader;
 import io.emailradar.bootstrap.datasource.reader.DataSourceReaderFactory;
 import io.emailradar.bootstrap.datasource.service.DataSourceProvider;
-import io.emailradar.bootstrap.email.EmailParser;
-import io.emailradar.bootstrap.email.PrimitiveToCivilisedEmailConverter;
-import io.emailradar.bootstrap.email.model.CivilisedEmail;
-import io.emailradar.bootstrap.email.model.PrimitiveEmail;
 import io.emailradar.bootstrap.exception.DataSourceException;
-import io.emailradar.bootstrap.exception.EmailParseException;
 import io.emailradar.bootstrap.kafka.EmailProducer;
 import io.emailradar.bootstrap.model.DataSourcePostRequest;
 import io.emailradar.bootstrap.service.api.DataSourceService;
+import io.emailradar.commons.email.EmailParser;
+import io.emailradar.commons.email.PrimitiveToCivilisedEmailConverter;
+import io.emailradar.commons.email.model.CivilisedEmail;
+import io.emailradar.commons.email.model.EmailPayload;
+import io.emailradar.commons.email.model.PrimitiveEmail;
+import io.emailradar.commons.exception.EmailParseException;
+import io.emailradar.commons.metadata.Metadata;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.james.mime4j.MimeException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -72,8 +74,16 @@ public class DataSourceServiceImpl implements DataSourceService {
                     .label(sourceLabel)
                     .build();
 
-            CivilisedEmail civilisedEmail = primitiveToCivilisedEmailConverter.convertToCivilisedEmail(primitiveEmail, metadata);
-            emailProducer.sendMessage(civilisedEmail, topic);
+            List<CivilisedEmail> civilisedEmail = primitiveToCivilisedEmailConverter.convertToCivilisedEmail(primitiveEmail);
+
+            for (CivilisedEmail email : civilisedEmail) {
+                EmailPayload emailPayload = EmailPayload.builder()
+                        ._id()
+                        .metadata(metadata)
+                        .civilisedEmail(email)
+                        .build();
+                emailProducer.sendMessage(emailPayload, topic);
+            }
         });
     }
 }

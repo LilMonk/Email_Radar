@@ -1,20 +1,2 @@
 FROM mongo:latest
-
-# Create app directory
-WORKDIR /usr/src/configs
-
-# Install app dependencies
-COPY ./mongo_setup/mongo_security/mongod.conf .
-COPY ./mongo_setup/mongo_security/shared.key .
-
-COPY ./mongo_setup/config-data.js .
-COPY ./mongo_setup/config-replica.js .
-COPY ./mongo_setup/mongo-setup.sh .
-
-# Set permission
-RUN chmod 400 shared.key
-RUN chown 999:999 shared.key
-RUN chmod +x mongo-setup.sh
-
-#CMD ["--config", "mongod.conf"]
-ENTRYPOINT ["bash", "-c", "./mongo-setup.sh"]
+COPY config-replica.js config-data.js /

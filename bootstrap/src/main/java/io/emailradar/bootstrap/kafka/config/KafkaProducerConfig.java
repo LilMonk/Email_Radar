@@ -1,6 +1,6 @@
 package io.emailradar.bootstrap.kafka.config;
 
-import io.emailradar.bootstrap.email.model.CivilisedEmail;
+import io.emailradar.commons.email.model.EmailPayload;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +20,7 @@ public class KafkaProducerConfig {
     private String bootstrapAddress;
 
     @Bean
-    public ProducerFactory<String, CivilisedEmail> emailProducerFactory() {
+    public ProducerFactory<String, EmailPayload> emailProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -29,7 +29,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, CivilisedEmail> emailKafkaTemplate() {
+    public KafkaTemplate<String, EmailPayload> emailKafkaTemplate() {
         return new KafkaTemplate<>(emailProducerFactory());
     }
 }

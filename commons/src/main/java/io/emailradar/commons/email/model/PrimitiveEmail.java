@@ -1,4 +1,4 @@
-package io.emailradar.bootstrap.email.model;
+package io.emailradar.commons.email.model;
 
 import lombok.Data;
 

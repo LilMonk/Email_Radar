@@ -1,4 +1,4 @@
-package io.emailradar.bootstrap.constant;
+package io.emailradar.commons.constant;
 
 import lombok.extern.slf4j.Slf4j;
 

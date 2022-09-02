@@ -2,9 +2,9 @@
   "name": "mongo-sink",
   "config": {
     "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
-    "connection.uri": "mongodb://mongo1",
+    "connection.uri": "mongodb://rootuser:rootpass@mongo1",
     "database": "email_spam_detection",
-    "collection": "emails",
+    "collection": "emails2",
     "topics": "emailstream",
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
     "value.converter.schemas.enable": "false",

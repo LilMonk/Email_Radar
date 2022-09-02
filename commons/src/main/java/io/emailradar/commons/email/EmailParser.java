@@ -1,7 +1,7 @@
-package io.emailradar.bootstrap.email;
+package io.emailradar.commons.email;
 
-import io.emailradar.bootstrap.email.model.PrimitiveEmail;
-import io.emailradar.bootstrap.exception.EmailParseException;
+import io.emailradar.commons.email.model.PrimitiveEmail;
+import io.emailradar.commons.exception.EmailParseException;
 import lombok.AllArgsConstructor;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.parser.MimeStreamParser;

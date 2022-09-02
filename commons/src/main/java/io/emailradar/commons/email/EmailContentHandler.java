@@ -1,4 +1,4 @@
-package io.emailradar.bootstrap.email;
+package io.emailradar.commons.email;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -201,6 +201,6 @@ public class EmailContentHandler implements ContentHandler {
         for (int length; (length = inputStream.read(buffer)) != -1; ) {
             result.write(buffer, 0, length);
         }
-        return result.toString(StandardCharsets.UTF_8.name());
+        return result.toString(StandardCharsets.UTF_8);
     }
 }
