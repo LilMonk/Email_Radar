@@ -5,18 +5,13 @@ import io.emailradar.commons.exception.EmailParseException;
 import lombok.AllArgsConstructor;
 import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.parser.MimeStreamParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-@Component
 @AllArgsConstructor
 public class EmailParser {
-    @Autowired
     private MimeStreamParser parser;
-    @Autowired
     private EmailBuilder emailBuilder;
 
     /**

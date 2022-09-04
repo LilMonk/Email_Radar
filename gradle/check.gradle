@@ -1,0 +1,21 @@
+subprojects {
+    apply plugin: 'checkstyle'
+    checkstyle {
+        ignoreFailures = true
+        configFile = rootProject.file('codequality/checkstyle.xml')
+        toolVersion = '8.4'
+    }
+
+    apply plugin: "com.github.spotbugs:5.0.10"
+
+    tasks.withType(com.github.spotbugs.SpotBugsTask) {
+        spotbugsMain.enabled = true
+        spotbugsTest.enabled = true
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    apply plugin: 'pmd'
+}

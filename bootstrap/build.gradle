@@ -1,18 +1,10 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.1'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+	id 'io.emailradar.spring-boot-web'
 }
 
 group = 'io.emailradar'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
 
 repositories {
 	mavenCentral()
@@ -21,23 +13,8 @@ repositories {
 dependencies {
     implementation project(":commons")
     implementation group: 'org.apache.james', name: 'apache-mime4j-dom', version: '0.8.7'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.kafka:spring-kafka'
     implementation group: 'commons-validator', name: 'commons-validator', version: '1.7'
 
-    compileOnly 'org.projectlombok:lombok'
-
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //    testImplementation 'org.springframework.kafka:spring-kafka-test'
-    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.23.1'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.6.1'
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
 }

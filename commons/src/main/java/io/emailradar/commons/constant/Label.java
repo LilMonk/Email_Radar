@@ -10,20 +10,19 @@ public enum Label {
 
     private final String labelName;
 
-    Label(String labelName){
+    Label(String labelName) {
         this.labelName = labelName;
     }
 
-    public String getLabelName(){
+    public String getLabelName() {
         return this.labelName;
     }
 
-    public static Label getLabelOrDefault(String labelName){
+    public static Label getLabelOrDefault(String labelName) {
         Label label;
-        try{
+        try {
             label = Label.valueOf(labelName.toUpperCase());
-        }
-        catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             log.error(exception.getMessage());
             log.error("Using default label: {}", Label.DEFAULT);
             label = Label.DEFAULT;

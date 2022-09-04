@@ -1,0 +1,28 @@
+plugins {
+    id 'groovy-gradle-plugin'
+}
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
+
+apply from: 'dependencies.gradle'
+
+dependencies {
+    assert SPRING_BOOT != null
+    assert GRADLE_SPRING_DEPENDENCY_MANAGEMENT_PLUGIN != null
+    assert SHADOW_PLUGIN != null
+    assert SPOT_BUGS_PLUGIN != null
+    assert CHECKSTYLE_PLUGIN != null
+    // Plugins
+    // Note do not specify the version of plugin in plugins block.
+    implementation group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: SPRING_BOOT
+    implementation group: 'io.spring.gradle', name: 'dependency-management-plugin', version: GRADLE_SPRING_DEPENDENCY_MANAGEMENT_PLUGIN
+    implementation group: 'gradle.plugin.com.github.johnrengelman', name: 'shadow', version: SHADOW_PLUGIN
+//    implementation group: 'com.puppycrawl.tools', name: 'checkstyle', version: CHECKSTYLE_PLUGIN
+//    implementation group: 'com.github.sevntu-checkstyle', name: 'sevntu-checks', version: SEVNTU_CHECKS_PLUGIN
+    implementation group: 'com.github.spotbugs.snom', name: 'spotbugs-gradle-plugin', version: SPOT_BUGS_PLUGIN
+//    testImplementation platform("org.spockframework:spock-bom:2.1-groovy-3.0")
+//    testImplementation 'org.spockframework:spock-core'
+}

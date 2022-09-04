@@ -1,0 +1,17 @@
+/**
+ * We are using this dependencies.gradle file inplace of properties.gradle
+ * because in io.emailradar.spring-boot.gradle we have a dynamic variable inside
+ * dependencyManagement block so we had to create two properties file one in this
+ * sub folder and another in the root.
+ */
+ext {
+    SPRING_BOOT = '2.7.1'
+    GRADLE_SPRING_DEPENDENCY_MANAGEMENT_PLUGIN = '1.0.13.RELEASE'
+    SHADOW_PLUGIN = '7.1.2'
+    SPOT_BUGS_PLUGIN = '5.0.11'
+    CHECKSTYLE_PLUGIN = '10.3.2'
+    SEVNTU_CHECKS_PLUGIN = '1.42.0'
+    SPOT_BUGS_OWASP_PLUGIN = '1.12.0'
+
+    SCALA_BASE_VERSION = '2.12'
+}

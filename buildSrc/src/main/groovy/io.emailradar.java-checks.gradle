@@ -1,0 +1,66 @@
+plugins {
+    id 'checkstyle'
+    id 'jacoco'
+    id 'com.github.spotbugs'
+}
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
+
+checkstyle {
+    ignoreFailures = true
+    configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+    showViolations = true
+    toolVersion = CHECKSTYLE_PLUGIN
+}
+
+spotbugs {
+    ignoreFailures = false
+    showStackTraces = true
+    showProgress = true
+    effort = 'max'
+    reportLevel = 'low'
+    visitors = ['FindSqlInjection', 'SwitchFallthrough']
+    omitVisitors = ['FindNonShortCircuit']
+    reportsDir = file("$buildDir/spotbugs")
+//    includeFilter = file("include.xml")
+//    excludeFilter = file("exclude.xml")
+//    baselineFile = file("baseline.xml")
+//    onlyAnalyze = [ 'io.emailradar.*' ]
+//    maxHeapSize = '1g'
+//    extraArgs = [ '-nested:false' ]
+//    jvmArgs = [ '-Duser.language=ja' ]
+
+    dependencies {
+        spotbugsPlugins "com.h3xstream.findsecbugs:findsecbugs-plugin:${SPOT_BUGS_OWASP_PLUGIN}"
+    }
+}
+
+spotbugsMain {
+    reports {
+        html {
+            required = true
+            outputLocation = file("$buildDir/reports/spotbugs/main/spotbugs.html")
+            stylesheet = 'fancy-hist.xsl'
+        }
+    }
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    additionalSourceDirs.setFrom files(sourceSets.main.allSource.srcDirs)
+    sourceDirectories.setFrom files(sourceSets.main.allSource.srcDirs)
+    classDirectories.setFrom files(sourceSets.main.output)
+
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = false
+    }
+}
+test {
+    finalizedBy jacocoTestReport
+}

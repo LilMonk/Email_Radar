@@ -1,12 +1,10 @@
-package io.emailradar.commons.email;
+package io.emailradar.commons.email.mapper;
 
-import io.emailradar.commons.email.mapper.EmailTreeNode;
 import io.emailradar.commons.email.model.CivilisedEmail;
 import io.emailradar.commons.email.model.CivilisedEmailHeader;
 import io.emailradar.commons.email.model.CivilisedEmailNodeInfo;
 import io.emailradar.commons.email.model.PrimitiveEmail;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,8 +20,7 @@ import static org.apache.james.mime4j.dom.field.FieldName.*;
  * Converts the {@link PrimitiveEmail} instance to {@link CivilisedEmail} instance.
  */
 @Slf4j
-@Component
-public class PrimitiveToCivilisedEmailConverter {
+public class PrimitiveToCivilisedEmailMapper {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E, d MMM yyyy HH:mm:ss Z");
 
     /**

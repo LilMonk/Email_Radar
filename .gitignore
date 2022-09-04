@@ -41,3 +41,6 @@ out/
 
 ### Resource Emails ###
 #src/main/resources/emails/
+
+### Groovy libs ###
+lib

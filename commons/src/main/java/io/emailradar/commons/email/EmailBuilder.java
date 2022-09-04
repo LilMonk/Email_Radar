@@ -3,7 +3,6 @@ package io.emailradar.commons.email;
 import io.emailradar.commons.email.model.PrimitiveEmail;
 import io.emailradar.commons.exception.EmailParseException;
 import org.apache.james.mime4j.stream.Field;
-import org.springframework.stereotype.Component;
 
 import java.util.Stack;
 
@@ -13,8 +12,7 @@ import java.util.Stack;
  * whenever some event happens like a message start or header field found then the respective
  * methods should be invoked to construct the tree.
  */
-@Component
-public class EmailBuilder {
+class EmailBuilder {
     private final Stack<PrimitiveEmail> primitiveEmailStack;
     private PrimitiveEmail root;
     private PrimitiveEmail currentNode;
@@ -43,7 +41,7 @@ public class EmailBuilder {
      * @param email root node in which the data will be filled.
      */
     public void register(PrimitiveEmail email) throws EmailParseException {
-        if(this.registeredNode != null)
+        if (this.registeredNode != null)
             throw new EmailParseException("Parsing of the current email is not finished.");
         this.registeredNode = email;
         reset();

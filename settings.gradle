@@ -1,6 +1,5 @@
-rootProject.name = 'email-radar'
+rootProject.name = 'emailradar'
 include 'bootstrap'
-//include 'streaming-email-ingestion'
 include 'processor'
 include 'commons'
 

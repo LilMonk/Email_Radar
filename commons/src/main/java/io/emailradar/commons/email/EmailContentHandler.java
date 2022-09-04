@@ -2,12 +2,10 @@ package io.emailradar.commons.email;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.james.mime4j.MimeException;
 import org.apache.james.mime4j.parser.ContentHandler;
 import org.apache.james.mime4j.parser.MimeStreamParser;
 import org.apache.james.mime4j.stream.BodyDescriptor;
 import org.apache.james.mime4j.stream.Field;
-import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,8 +13,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
-@Component
-public class EmailContentHandler implements ContentHandler {
+class EmailContentHandler implements ContentHandler {
     private final EmailBuilder emailBuilder;
 
     public EmailContentHandler(EmailBuilder emailBuilder) {
@@ -26,24 +23,20 @@ public class EmailContentHandler implements ContentHandler {
     /**
      * Called when a new message starts (a top level message or an embedded
      * rfc822 message).
-     *
-     * @throws MimeException on processing errors
      */
     @SneakyThrows
     @Override
-    public void startMessage() throws MimeException {
+    public void startMessage() {
         emailBuilder.startEmail();
         log.debug("New Message Started!!!");
     }
 
     /**
      * Called when a message ends.
-     *
-     * @throws MimeException on processing errors
      */
     @SneakyThrows
     @Override
-    public void endMessage() throws MimeException {
+    public void endMessage() {
         emailBuilder.endEmail();
         log.debug("Message Ended!!!");
     }
@@ -51,35 +44,29 @@ public class EmailContentHandler implements ContentHandler {
     /**
      * Called when a new body part starts inside a
      * <code>multipart/*</code> entity.
-     *
-     * @throws MimeException on processing errors
      */
     @SneakyThrows
     @Override
-    public void startBodyPart() throws MimeException {
+    public void startBodyPart() {
         emailBuilder.startMessage();
         log.debug("New Body Part Started!!!");
     }
 
     /**
      * Called when a body part ends.
-     *
-     * @throws MimeException on processing errors
      */
     @SneakyThrows
     @Override
-    public void endBodyPart() throws MimeException {
+    public void endBodyPart() {
         emailBuilder.endMessage();
         log.debug("Body Part Ended!!!");
     }
 
     /**
      * Called when a header (of a message or body part) is about to be parsed.
-     *
-     * @throws MimeException on processing errors
      */
     @Override
-    public void startHeader() throws MimeException {
+    public void startHeader() {
         log.debug("New Header Started!!!");
     }
 
@@ -87,21 +74,18 @@ public class EmailContentHandler implements ContentHandler {
      * Called for each field of a header.
      *
      * @param rawField the MIME field.
-     * @throws MimeException on processing errors
      */
     @Override
-    public void field(Field rawField) throws MimeException {
+    public void field(Field rawField) {
         emailBuilder.insertHeader(rawField);
         log.debug("Header field detected: {} = {}", rawField.getName(), rawField.getBody());
     }
 
     /**
      * Called when there are no more header fields in a message or body part.
-     *
-     * @throws MimeException on processing errors
      */
     @Override
-    public void endHeader() throws MimeException {
+    public void endHeader() {
         log.debug("Header Ended!!!");
     }
 
@@ -110,11 +94,10 @@ public class EmailContentHandler implements ContentHandler {
      * of a <code>multipart/*</code> entity.
      *
      * @param is used to get the contents of the preamble.
-     * @throws MimeException on processing errors
-     * @throws IOException   should be thrown on I/O errors.
+     * @throws IOException should be thrown on I/O errors.
      */
     @Override
-    public void preamble(InputStream is) throws MimeException, IOException {
+    public void preamble(InputStream is) throws IOException {
         log.debug("Preamble: {}", readFromInputStream(is));
     }
 
@@ -123,11 +106,10 @@ public class EmailContentHandler implements ContentHandler {
      * of a <code>multipart/*</code> entity.
      *
      * @param is used to get the contents of the epilogue.
-     * @throws MimeException on processing errors
-     * @throws IOException   should be thrown on I/O errors.
+     * @throws IOException should be thrown on I/O errors.
      */
     @Override
-    public void epilogue(InputStream is) throws MimeException, IOException {
+    public void epilogue(InputStream is) throws IOException {
         log.debug("Epilogue: {}" + readFromInputStream(is));
     }
 
@@ -139,20 +121,17 @@ public class EmailContentHandler implements ContentHandler {
      *           as described in the
      *           MIME rfc:s) of the <code>Content-Type</code> and
      *           <code>Content-Transfer-Encoding</code> header fields.
-     * @throws MimeException on processing errors
      */
     @Override
-    public void startMultipart(BodyDescriptor bd) throws MimeException {
+    public void startMultipart(BodyDescriptor bd) {
         log.debug("Multipart message detected, header data = {}", bd);
     }
 
     /**
      * Called when the body of an entity has been parsed.
-     *
-     * @throws MimeException on processing errors
      */
     @Override
-    public void endMultipart() throws MimeException {
+    public void endMultipart() {
         log.debug("Multipart message ended!!!");
     }
 
@@ -165,11 +144,10 @@ public class EmailContentHandler implements ContentHandler {
      *           - it will not be decoded if encoded. The <code>bd</code>
      *           parameter should be used to determine how the stream data
      *           should be decoded.
-     * @throws MimeException on processing errors
-     * @throws IOException   should be thrown on I/O errors.
+     * @throws IOException should be thrown on I/O errors.
      */
     @Override
-    public void body(BodyDescriptor bd, InputStream is) throws MimeException, IOException {
+    public void body(BodyDescriptor bd, InputStream is) throws IOException {
         String bodyData = readFromInputStream(is);
         emailBuilder.insertBody(bodyData);
         log.debug("Body detected, contents = {}, header data = {}", bodyData, bd);
@@ -180,12 +158,10 @@ public class EmailContentHandler implements ContentHandler {
      * parser is in <code>raw</code> mode.
      *
      * @param is the raw contents of the entity.
-     * @throws MimeException on processing errors
-     * @throws IOException   should be thrown on I/O errors.
      * @see MimeStreamParser#setRaw()
      */
     @Override
-    public void raw(InputStream is) throws MimeException, IOException {
+    public void raw(InputStream is) {
     }
 
     /**

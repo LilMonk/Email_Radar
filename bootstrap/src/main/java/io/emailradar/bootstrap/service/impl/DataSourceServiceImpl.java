@@ -9,7 +9,7 @@ import io.emailradar.bootstrap.kafka.EmailProducer;
 import io.emailradar.bootstrap.model.DataSourcePostRequest;
 import io.emailradar.bootstrap.service.api.DataSourceService;
 import io.emailradar.commons.email.EmailParser;
-import io.emailradar.commons.email.PrimitiveToCivilisedEmailConverter;
+import io.emailradar.commons.email.mapper.PrimitiveToCivilisedEmailMapper;
 import io.emailradar.commons.email.model.CivilisedEmail;
 import io.emailradar.commons.email.model.EmailPayload;
 import io.emailradar.commons.email.model.PrimitiveEmail;
@@ -46,7 +46,7 @@ public class DataSourceServiceImpl implements DataSourceService {
     DataSourceReaderFactory dataSourceReaderFactory;
 
     @Autowired
-    PrimitiveToCivilisedEmailConverter primitiveToCivilisedEmailConverter;
+    PrimitiveToCivilisedEmailMapper primitiveToCivilisedEmailMapper;
 
     // TODO: Change the name of this method. Refactor this method to make it simple.
     @Override
@@ -74,7 +74,7 @@ public class DataSourceServiceImpl implements DataSourceService {
                     .label(sourceLabel)
                     .build();
 
-            List<CivilisedEmail> civilisedEmail = primitiveToCivilisedEmailConverter.convertToCivilisedEmail(primitiveEmail);
+            List<CivilisedEmail> civilisedEmail = primitiveToCivilisedEmailMapper.convertToCivilisedEmail(primitiveEmail);
 
             for (CivilisedEmail email : civilisedEmail) {
                 EmailPayload emailPayload = EmailPayload.builder()

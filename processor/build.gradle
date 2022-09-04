@@ -1,14 +1,9 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.1'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
-    id 'scala'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'io.emailradar.scala-conventions'
 }
 
 group = 'io.emailradar'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -18,23 +13,7 @@ dependencies {
     implementation project(":commons")
     implementation group: 'org.apache.spark', name: 'spark-core_2.12', version: '3.3.0'
     implementation group: 'org.mongodb.spark', name: 'mongo-spark-connector', version: '10.0.4'
-    implementation group: 'org.scala-lang', name: 'scala-library', version: '2.12.16'
     implementation group: 'org.apache.spark', name: 'spark-sql_2.12', version: '3.3.0'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
 
-
-shadowJar {
-    zip64 true
-    mergeServiceFiles()
-    exclude "META-INF/*.SF"
-    exclude 'META-INF/*.DSA'
-    exclude 'META-INF/*.RSA'
-    exclude "LICENSE*"
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

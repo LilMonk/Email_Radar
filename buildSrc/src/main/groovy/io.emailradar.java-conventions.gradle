@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'io.emailradar.java-checks'
+    id 'com.github.johnrengelman.shadow'
+}
+
+group = "io.${rootProject.name}"
+version = '0.0.1-SNAPSHOT'
+
+ext {
+    lombokVersion = '1.18.24'
+    assertjVersion = '3.23.1'
+    mockitoVersion = '4.6.1'
+    log4jVersion = '2.18.0'
+    junit5Version = '5.9.0'
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4jVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4jVersion
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: log4jVersion
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit5Version
+    testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit5Version
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: assertjVersion
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: mockitoVersion
+}
+
+shadowJar {
+    zip64 true
+    mergeServiceFiles()
+    exclude "META-INF/*.SF"
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude "LICENSE*"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-Xlint:deprecation"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

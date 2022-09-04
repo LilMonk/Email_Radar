@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'scala'
+    id 'io.emailradar.scala-checks'
+    id 'com.github.johnrengelman.shadow'
+}
+
+group = "io.${rootProject.name}"
+version = '0.0.1-SNAPSHOT'
+
+ext {
+    scalaTestVersion = '3.2.13'
+    scalaLangVersion = '2.12.16'
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation group: 'org.scala-lang', name: 'scala-library', version: scalaLangVersion
+    testImplementation group: 'org.scalatest', name: 'scalatest_2.12', version: scalaTestVersion
+}
+
+shadowJar {
+    zip64 true
+    mergeServiceFiles()
+    exclude "META-INF/*.SF"
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+    exclude "LICENSE*"
+}
+
+tasks.withType(ScalaCompile).configureEach {
+    options.compilerArgs << "-Xlint:deprecation"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
