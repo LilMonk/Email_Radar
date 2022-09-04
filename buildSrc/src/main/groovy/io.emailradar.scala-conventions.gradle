@@ -10,7 +10,7 @@ version = '0.0.1-SNAPSHOT'
 
 ext {
     scalaTestVersion = '3.2.13'
-    scalaLangVersion = '2.12.16'
+    scalaLangVersion = "${SCALA_BASE_VERSION}.16"
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -28,8 +28,10 @@ configurations {
 }
 
 dependencies {
+    assert SCALA_BASE_VERSION != null
+
     implementation group: 'org.scala-lang', name: 'scala-library', version: scalaLangVersion
-    testImplementation group: 'org.scalatest', name: 'scalatest_2.12', version: scalaTestVersion
+    testImplementation group: 'org.scalatest', name: "scalatest_${SCALA_BASE_VERSION}", version: scalaTestVersion
 }
 
 shadowJar {
